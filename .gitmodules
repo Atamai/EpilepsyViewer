@@ -1,0 +1,3 @@
+[submodule "ToolCursor"]
+	path = ToolCursor
+	url = http://github.com/dgobbi/ToolCursor.git
