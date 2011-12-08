@@ -244,10 +244,10 @@ bool EpilepsyViewerData::RegisterMRHeadToCTHead()
     minSpacing = sourceSpacing[2];
     }
 
-  // blur source image with Hamming-windowed sinc
+  // blur source image with Blackman-windowed sinc
   vtkSmartPointer<vtkImageSincInterpolator> sourceBlurKernel =
     vtkSmartPointer<vtkImageSincInterpolator>::New();
-  sourceBlurKernel->SetWindowFunctionToHamming();
+  sourceBlurKernel->SetWindowFunctionToBlackman();
 
   // reduce the source resolution
   vtkSmartPointer<vtkImageFastBlur> sourceBlur =
@@ -257,10 +257,10 @@ bool EpilepsyViewerData::RegisterMRHeadToCTHead()
   sourceBlur->SetInterpolator(sourceBlurKernel);
   sourceBlur->InterpolateOn();
 
-  // blur target with Hamming-windowed sinc
+  // blur target with Blackman-windowed sinc
   vtkSmartPointer<vtkImageSincInterpolator> targetBlurKernel =
     vtkSmartPointer<vtkImageSincInterpolator>::New();
-  targetBlurKernel->SetWindowFunctionToHamming();
+  targetBlurKernel->SetWindowFunctionToBlackman();
 
   // keep target at full resolution
   vtkSmartPointer<vtkImageFastBlur> targetBlur =
@@ -671,6 +671,7 @@ bool EpilepsyViewerData::ReadDICOMSeries(
   flip->SetResliceAxesDirectionCosines(1,0,0, 0,-1,0, 0,0,-1);
   flip->SetOutputOrigin(origin);
   flip->SetOutputExtent(extent);
+  flip->SetBackgroundLevel(fullRange[0]);
   flip->Update();
 
   image = flip->GetOutput();

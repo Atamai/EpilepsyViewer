@@ -101,11 +101,12 @@ private:
   //! A struct to hold everything for an ortho plane slice.
   struct Slice
   {
-    Slice();
+    Slice(int orientation);
     virtual ~Slice();
 
     vtkSmartPointer<vtkImageStack> Stack;
     vtkSmartPointer<vtkPlane> Plane;
+    int Orientation;
   };
 
   //! A vector containing all of the slices.

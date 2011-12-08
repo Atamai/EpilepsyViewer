@@ -34,6 +34,7 @@ Module:    EpilepsyViewerDisplay.cxx
 #include <vtkPiecewiseFunction.h>
 #include <vtkPlane.h>
 #include <vtkMatrix4x4.h>
+#include <vtkTransform.h>
 #include <vtkMath.h>
 #include <vtkCommand.h>
 
@@ -41,10 +42,20 @@ Module:    EpilepsyViewerDisplay.cxx
 #include <stddef.h>
 
 //----------------------------------------------------------------------------
-EpilepsyViewerDisplay::Slice::Slice()
+EpilepsyViewerDisplay::Slice::Slice(int orientation)
 {
   this->Stack = vtkSmartPointer<vtkImageStack>::New();
   this->Plane = vtkSmartPointer<vtkPlane>::New();
+  this->Orientation = orientation;
+  if (orientation >= 0 && orientation < 2)
+    {
+    double normal[3];
+    normal[0] = 0.0;
+    normal[1] = 0.0;
+    normal[2] = 0.0;
+    normal[orientation] = 1.0;
+    this->Plane->SetNormal(normal);
+    }
 }
 
 //----------------------------------------------------------------------------
@@ -57,6 +68,7 @@ EpilepsyViewerDisplay::EpilepsyViewerDisplay()
 {
   // the renderers
   this->MainRenderer = vtkSmartPointer<vtkRenderer>::New();
+  this->MainRenderer->SetBackground(0.2, 0.2, 0.2);
 
   // all of the properties that the App has access to
   this->MRImageProperty = vtkSmartPointer<vtkImageProperty>::New();
@@ -116,7 +128,7 @@ EpilepsyViewerDisplay::EpilepsyViewerDisplay()
   // generate an ortho slice for each orientation
   for (size_t i = 0; i < EpilepsyViewerDisplay::OrientationCount; ++i)
     {
-    this->Slices.push_back(EpilepsyViewerDisplay::Slice());
+    this->Slices.push_back(EpilepsyViewerDisplay::Slice(i));
     }
 
   // create the CT and MR layers
@@ -129,7 +141,7 @@ EpilepsyViewerDisplay::EpilepsyViewerDisplay()
   size_t m = this->Slices.size();
   for (size_t j = 0; j < m; ++j)
     {
-    //this->MainRenderer->AddViewProp(this->Slices[j].Stack);
+    this->MainRenderer->AddViewProp(this->Slices[j].Stack);
     }
 }
 
@@ -229,12 +241,41 @@ void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
   int n = static_cast<int>(this->Slices.size());
   for (int i = 0; i < n; ++i)
     {
+    double range[2];
+    data->GetCTHeadAutoRange(range);
     image = this->GetImageSlice(CTLayer, i);
     image->GetMapper()->SetInput(data->GetCTHeadImage());
+    image->GetProperty()->SetColorWindow(range[1] - range[0]);
+    image->GetProperty()->SetColorLevel(0.5*(range[0] + range[1]));
+    image->SetUserMatrix(data->GetCTHeadMatrix());
+
+    data->GetMRHeadAutoRange(range);
+
+    vtkSmartPointer<vtkTransform> resliceTransform =
+      vtkSmartPointer<vtkTransform>::New();
+    resliceTransform->PostMultiply();
+    resliceTransform->Concatenate(data->GetMRHeadMatrix());
+    resliceTransform->Inverse();
+    resliceTransform->Concatenate(data->GetCTHeadMatrix());
+
+    vtkSmartPointer<vtkImageReslice> mrReslice =
+      vtkSmartPointer<vtkImageReslice>::New();
+    mrReslice->SetInput(data->GetMRHeadImage());
+    mrReslice->SetInformationInput(data->GetCTHeadImage());
+    mrReslice->SetResliceTransform(resliceTransform);
+    mrReslice->SetInterpolationModeToCubic();
+    mrReslice->SetBackgroundLevel(range[0]);
+    mrReslice->Update();
+
     image = this->GetImageSlice(MRLayer, i);
-    image->GetMapper()->SetInput(data->GetMRHeadImage());
+    image->GetMapper()->SetInput(data->GetCTHeadImage());
+    image->GetMapper()->SetInput(mrReslice->GetOutput());
+    image->GetProperty()->SetColorWindow(range[1] - range[0]);
+    image->GetProperty()->SetColorLevel(0.5*(range[0] + range[1]));
+    image->SetUserMatrix(data->GetCTHeadMatrix());
     }
 
+  /*
   // crop the data before volume rendering
   vtkImageData *imageData = data->GetMRBrainImage();
   double origin[3], spacing[3];
@@ -256,10 +297,29 @@ void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
   this->BrainVolumeReslice->SetOutputSpacing(spacing);
   this->BrainVolumeReslice->SetOutputOrigin(origin);
   this->BrainVolumeReslice->SetOutputExtent(extent);
+  */
+
+  // match the brain volume to the CT volume (temporary?)
+  double range[2];
+  data->GetMRHeadAutoRange(range);
+
+  vtkSmartPointer<vtkTransform> resliceTransform =
+    vtkSmartPointer<vtkTransform>::New();
+  resliceTransform->PostMultiply();
+  resliceTransform->Concatenate(data->GetMRHeadMatrix());
+  resliceTransform->Inverse();
+  resliceTransform->Concatenate(data->GetCTHeadMatrix());
+
+  this->BrainVolumeReslice->SetInput(data->GetMRBrainImage());
+  this->BrainVolumeReslice->SetInformationInput(data->GetCTHeadImage());
+  this->BrainVolumeReslice->SetResliceTransform(resliceTransform);
+  this->BrainVolumeReslice->SetInterpolationModeToCubic();
+  this->BrainVolumeReslice->SetBackgroundLevel(range[0]);
+  this->BrainVolumeReslice->Update();
 
   // the brain volume
   vtkLODProp3D *volume = this->BrainVolume;
-  volume->SetUserMatrix(data->GetMRHeadMatrix());
+  volume->SetUserMatrix(data->GetCTHeadMatrix());
   size_t m = this->HeadVolumeLODIds.size();
   for (size_t j = 0; j < m; ++j)
     {
@@ -278,8 +338,6 @@ void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
   vtkSmartPointer<vtkPiecewiseFunction> opacity =
     vtkSmartPointer<vtkPiecewiseFunction>::New();
 
-  double range[2];
-  data->GetMRHeadAutoRange(range);
 
   static double table[][5] = {
     { 0.00, 0.0, 0.0, 0.0, 0.0 },
