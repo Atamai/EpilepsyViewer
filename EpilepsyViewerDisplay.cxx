@@ -286,7 +286,7 @@ void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
 
   double range[2];
   data->GetMRHeadAutoRange(range);
-
+/*
   vtkSmartPointer<vtkImageReslice> padFilter =
     vtkSmartPointer<vtkImageReslice>::New();
   padFilter->SetInput(data->GetMRHeadImage());
@@ -295,7 +295,8 @@ void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
   padFilter->SetOutputOrigin(origin);
   padFilter->SetOutputExtent(extent);
   padFilter->Update();
-
+*/
+/*
   // also pad the volume, for the sake of its clipping cube
   this->BrainVolumeReslice->SetInput(data->GetMRBrainImage());
   this->BrainVolumeReslice->SetBackgroundLevel(range[0]);
@@ -303,7 +304,7 @@ void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
   this->BrainVolumeReslice->SetOutputOrigin(origin);
   this->BrainVolumeReslice->SetOutputExtent(extent);
   this->BrainVolumeReslice->Update();
-
+*/
   // the ortho planes
   vtkImageSlice *image = 0;
   int n = static_cast<int>(this->Slices.size());
@@ -332,7 +333,8 @@ void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
 
     image = this->GetImageSlice(MRLayer, i);
     image->GetMapper()->SetClippingPlanes(clippingPlanes);
-    image->GetMapper()->SetInput(padFilter->GetOutput());
+    //image->GetMapper()->SetInput(padFilter->GetOutput());
+    image->GetMapper()->SetInput(data->GetMRHeadImage());
     image->GetMapper()->BorderOn();
     image->GetProperty()->SetColorWindow(range[1] - range[0]);
     image->GetProperty()->SetColorLevel(0.5*(range[0] + range[1]));
@@ -358,8 +360,9 @@ void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
     if (vmapper)
       {
       vmapper->SetClippingPlanes(clippingPlanes);
-      vmapper->SetInputConnection(
-        this->BrainVolumeReslice->GetOutputPort());
+      //vmapper->SetInputConnection(
+      //  this->BrainVolumeReslice->GetOutputPort());
+      vmapper->SetInput(data->GetMRBrainImage());
       }
     }
 
@@ -469,7 +472,7 @@ void EpilepsyViewerDisplay::GenerateClippingPlanes(
   double normalMatrix[16];
   vtkMatrix4x4::Invert(pointMatrix, normalMatrix);
   vtkMatrix4x4::Transpose(normalMatrix, normalMatrix);
-  
+
   double center[3];
   center[0] = 0.5*(bounds[0] + bounds[1]);
   center[1] = 0.5*(bounds[2] + bounds[3]);
