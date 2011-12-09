@@ -32,6 +32,8 @@ Module:    EpilepsyViewerData.cxx
 #include <vtkTimerLog.h>
 #include <vtkImageSincInterpolator.h>
 #include <vtkMath.h>
+#include <vtkMNITransformReader.h>
+#include <vtkMNITransformWriter.h>
 
 #include <vtkMINCImageReader.h>
 #include <vtkDICOMImageReader.h>
@@ -84,6 +86,12 @@ void EpilepsyViewerData::ReportError(const char *format, ...)
 }
 
 //----------------------------------------------------------------------------
+void EpilepsyViewerData::SetDataDirectory(const std::string &dirname)
+{
+  this->DataDirectory = dirname;
+}
+
+//----------------------------------------------------------------------------
 vtkImageData *EpilepsyViewerData::GetCTHeadImage()
 {
   return this->CTHeadImage;
@@ -126,8 +134,10 @@ vtkPolyData *EpilepsyViewerData::GetMRBrainSurface()
 }
 
 //----------------------------------------------------------------------------
-bool EpilepsyViewerData::LoadFromDataDirectory(const char *dirname)
+bool EpilepsyViewerData::LoadFromDataDirectory()
 {
+  const char *dirname = this->DataDirectory.c_str();
+
   if (!vtksys::SystemTools::FileExists(dirname))
     {
     this->ReportError("Directory does not exist: %s", dirname);
@@ -219,6 +229,37 @@ bool EpilepsyViewerData::RegisterMRHeadToCTHead()
   vtkImageData *sourceImage = this->MRHeadImage;
   vtkMatrix4x4 *targetMatrix = this->CTHeadMatrix;
   vtkMatrix4x4 *sourceMatrix = this->MRHeadMatrix;
+
+  // -------------------------------------------------------
+  // create the file name, try to read the file
+  const char *dirname = this->DataDirectory.c_str();
+  std::vector<std::string> components;
+  vtksys::SystemTools::SplitPath(dirname, components);
+  components.push_back("MRtoCT.xfm");
+  std::string xfmfile = vtksys::SystemTools::JoinPath(components);
+
+  if (vtksys::SystemTools::FileExists(xfmfile.c_str(), true))
+    {
+    vtkSmartPointer<vtkMNITransformReader> reader =
+      vtkSmartPointer<vtkMNITransformReader>::New();
+
+    reader->SetFileName(xfmfile.c_str());
+    reader->Update();
+
+    vtkLinearTransform *transform =
+      vtkLinearTransform::SafeDownCast(reader->GetTransform());
+
+    if (transform)
+      {
+      vtkMatrix4x4::Multiply4x4(
+        targetMatrix, transform->GetMatrix(), sourceMatrix);
+      sourceMatrix->Modified();
+
+      return true;
+      }
+
+    this->ReportError("Could not read file %s", xfmfile.c_str());
+    }
 
   // -------------------------------------------------------
   // prepare for registration
@@ -421,6 +462,14 @@ bool EpilepsyViewerData::RegisterMRHeadToCTHead()
     }
 
   cout << "registration took " << (lastTime - startTime) << "s" << endl;
+
+  // write the file
+  vtkSmartPointer<vtkMNITransformWriter> writer =
+    vtkSmartPointer<vtkMNITransformWriter>::New();
+
+  writer->SetTransform(registration->GetTransform());
+  writer->SetFileName(xfmfile.c_str());
+  writer->Write();
 
   return true;
 }

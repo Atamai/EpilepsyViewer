@@ -39,7 +39,8 @@ int main (int argc, char *argv[])
   EpilepsyViewerData *dataManager = &dataManagerObject;
   EpilepsyViewerDisplay *displayManager = &displayManagerObject;
 
-  dataManager->LoadFromDataDirectory(argv[1]);
+  dataManager->SetDataDirectory(argv[1]);
+  dataManager->LoadFromDataDirectory();
   dataManager->RegisterMRHeadToCTHead();
   dataManager->ExtractMRBrain();
   dataManager->ExtractCTElectrodes();

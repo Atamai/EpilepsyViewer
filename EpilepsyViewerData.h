@@ -12,6 +12,7 @@ Module:    EpilepsyViewerData.h
 #define __EpilepsyViewerData_h
 
 #include <vtkSmartPointer.h>
+#include <string>
 
 class vtkImageData;
 class vtkPolyData;
@@ -25,9 +26,14 @@ public:
   EpilepsyViewerData();
   ~EpilepsyViewerData();
 
+  //! The data directory for this particular case.
+  void SetDataDirectory(const std::string &dirname);
+  std::string GetDataDirectory() {
+    return this->DataDirectory; }
+
   //! Load everything that is available in the data directory.
   //! This includes the images, the registration matrix, etc.
-  bool LoadFromDataDirectory(const char *dirname);
+  bool LoadFromDataDirectory();
 
   //! Register the MR head image to the CT head image.
   //! Once this is done, the MRHeadMatrix will be updated so
@@ -117,6 +123,8 @@ private:
   vtkSmartPointer<vtkPolyData> CTElectrodes;
 
   vtkSmartPointer<vtkTimerLog> Timer;
+
+  std::string DataDirectory;
 };
 
 #endif
