@@ -26,6 +26,7 @@ class vtkImageProperty;
 class vtkImageResliceMapper;
 class vtkRenderWindow;
 class vtkRenderer;
+class vtkPlaneCollection;
 class vtkMatrix4x4;
 
 class EpilepsyViewerData;
@@ -80,6 +81,15 @@ private:
 
   //! Get the vtkImageSlice object for the specified layer and orientation.
   vtkImageSlice *GetImageSlice(int layer, int orientation);
+
+  //! Generate a set of clipping planes from a set of bounds and a
+  //! transformation matrix.
+  static void GenerateClippingPlanes(vtkPlaneCollection *planes,
+    vtkMatrix4x4 *matrix, const double bounds[6]);
+
+  //! Get a transformed set of bounds that encloses the origin bounds.
+  static void TransformBounds(vtkMatrix4x4 *matrix,
+    const double inbounds[6], double outbounds[6]);
 
   vtkSmartPointer<vtkRenderWindow> RenderWindow;
   vtkSmartPointer<vtkRenderer> MainRenderer;

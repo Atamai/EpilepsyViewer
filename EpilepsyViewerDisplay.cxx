@@ -32,6 +32,7 @@ Module:    EpilepsyViewerDisplay.cxx
 #include <vtkPolyData.h>
 #include <vtkColorTransferFunction.h>
 #include <vtkPiecewiseFunction.h>
+#include <vtkPlaneCollection.h>
 #include <vtkPlane.h>
 #include <vtkMatrix4x4.h>
 #include <vtkTransform.h>
@@ -220,7 +221,7 @@ vtkImageSlice *EpilepsyViewerDisplay::GetImageSlice(int layer, int orientation)
 //----------------------------------------------------------------------------
 void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
 {
-  // the bounds of the brain are useful for many things
+  // get the center of the brain mesh, us it as the focus
   vtkPolyData *mesh = data->GetMRBrainSurface();
   double bounds[6], center[4];
   mesh->GetBounds(bounds);
@@ -236,90 +237,119 @@ void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
   mapper->SetInput(data->GetCTElectrodes());
   this->ElectrodesActor->SetUserMatrix(data->GetCTHeadMatrix());
 
+  // transformation from CT to MR
+  vtkSmartPointer<vtkTransform> transformCTtoMR =
+    vtkSmartPointer<vtkTransform>::New();
+  transformCTtoMR->PostMultiply();
+  transformCTtoMR->Concatenate(data->GetMRHeadMatrix());
+  transformCTtoMR->Inverse();
+  transformCTtoMR->Concatenate(data->GetCTHeadMatrix());
+
+  // get CT bounds in MR coords, be careful about half-voxel border
+  double spacing[3], origin[3];
+  double ctbounds[6];
+  data->GetCTHeadImage()->GetBounds(ctbounds);
+  data->GetCTHeadImage()->GetSpacing(spacing);
+  for (int i = 0; i < 3; ++i)
+    {
+    double b = 0.5*fabs(spacing[i]);
+    ctbounds[2*i] -= b;
+    ctbounds[2*i + 1] += b;
+    }
+  EpilepsyViewerDisplay::TransformBounds(
+    transformCTtoMR->GetMatrix(), ctbounds, bounds);
+
+  // pad the MR to avoid showing CT past its bounds
+  // (eventually ImageResliceMapper should have a setting that
+  // will make this unnecessary).
+  int extent[6];
+  data->GetMRHeadImage()->GetSpacing(spacing);
+  data->GetMRHeadImage()->GetOrigin(origin);
+  data->GetMRHeadImage()->GetWholeExtent(extent);
+
+  for (int i = 0; i < 3; ++i)
+    {
+    if (spacing[i] < 0)
+      {
+      origin[i] += spacing[i]*(extent[2*i+1] - extent[2*i]);
+      spacing[i] = -spacing[i];
+      }
+
+    double b = 0.5*spacing[i];
+    bounds[2*i] += b;
+    bounds[2*i + 1] -= b;
+
+    origin[i] += vtkMath::Floor((bounds[2*i]-origin[i])/spacing[i])*spacing[i];
+    extent[2*i] = 0;
+    extent[2*i + 1] = vtkMath::Ceil((bounds[2*i + 1] - origin[i])/spacing[i]);
+    }
+
+  double range[2];
+  data->GetMRHeadAutoRange(range);
+
+  vtkSmartPointer<vtkImageReslice> padFilter =
+    vtkSmartPointer<vtkImageReslice>::New();
+  padFilter->SetInput(data->GetMRHeadImage());
+  padFilter->SetBackgroundLevel(range[0]);
+  padFilter->SetOutputSpacing(spacing);
+  padFilter->SetOutputOrigin(origin);
+  padFilter->SetOutputExtent(extent);
+  padFilter->Update();
+
+  // also pad the volume, for the sake of its clipping cube
+  this->BrainVolumeReslice->SetInput(data->GetMRBrainImage());
+  this->BrainVolumeReslice->SetBackgroundLevel(range[0]);
+  this->BrainVolumeReslice->SetOutputSpacing(spacing);
+  this->BrainVolumeReslice->SetOutputOrigin(origin);
+  this->BrainVolumeReslice->SetOutputExtent(extent);
+  this->BrainVolumeReslice->Update();
+
   // the ortho planes
   vtkImageSlice *image = 0;
   int n = static_cast<int>(this->Slices.size());
   for (int i = 0; i < n; ++i)
     {
-    double range[2];
+    // set the plane positions
+    this->Slices[i].Plane->SetOrigin(center);
+
+    // set up the planes for the CT
     data->GetCTHeadAutoRange(range);
     image = this->GetImageSlice(CTLayer, i);
     image->GetMapper()->SetInput(data->GetCTHeadImage());
+    image->GetMapper()->BorderOn();
     image->GetProperty()->SetColorWindow(range[1] - range[0]);
     image->GetProperty()->SetColorLevel(0.5*(range[0] + range[1]));
     image->SetUserMatrix(data->GetCTHeadMatrix());
 
+    // use CT to generate clipping planes
+    vtkSmartPointer<vtkPlaneCollection> clippingPlanes =
+      vtkSmartPointer<vtkPlaneCollection>::New();
+    EpilepsyViewerDisplay::GenerateClippingPlanes(
+      clippingPlanes, data->GetCTHeadMatrix(), ctbounds);
+
+    // get auto-range for MR
     data->GetMRHeadAutoRange(range);
 
-    vtkSmartPointer<vtkTransform> resliceTransform =
-      vtkSmartPointer<vtkTransform>::New();
-    resliceTransform->PostMultiply();
-    resliceTransform->Concatenate(data->GetMRHeadMatrix());
-    resliceTransform->Inverse();
-    resliceTransform->Concatenate(data->GetCTHeadMatrix());
-
-    vtkSmartPointer<vtkImageReslice> mrReslice =
-      vtkSmartPointer<vtkImageReslice>::New();
-    mrReslice->SetInput(data->GetMRHeadImage());
-    mrReslice->SetInformationInput(data->GetCTHeadImage());
-    mrReslice->SetResliceTransform(resliceTransform);
-    mrReslice->SetInterpolationModeToCubic();
-    mrReslice->SetBackgroundLevel(range[0]);
-    mrReslice->Update();
-
     image = this->GetImageSlice(MRLayer, i);
-    image->GetMapper()->SetInput(data->GetCTHeadImage());
-    image->GetMapper()->SetInput(mrReslice->GetOutput());
+    image->GetMapper()->SetClippingPlanes(clippingPlanes);
+    image->GetMapper()->SetInput(padFilter->GetOutput());
+    image->GetMapper()->BorderOn();
     image->GetProperty()->SetColorWindow(range[1] - range[0]);
     image->GetProperty()->SetColorLevel(0.5*(range[0] + range[1]));
-    image->SetUserMatrix(data->GetCTHeadMatrix());
+    image->SetUserMatrix(data->GetMRHeadMatrix());
     }
-
-  /*
-  // crop the data before volume rendering
-  vtkImageData *imageData = data->GetMRBrainImage();
-  double origin[3], spacing[3];
-  int extent[6];
-  imageData->GetOrigin(origin);
-  imageData->GetSpacing(spacing);
-  imageData->GetWholeExtent(extent);
-  for (int ii = 0; ii < 3; ++ii)
-    {
-    // add a 20 mm tolerance around the brain
-    double minbound = bounds[2*ii] - 20.0;
-    double maxbound = bounds[2*ii+1] + 20.0;
-    int minext = static_cast<int>((minbound - origin[ii])/spacing[ii]);
-    int maxext = static_cast<int>((maxbound - origin[ii])/spacing[ii]);
-    extent[2*ii] = (minext < extent[2*ii] ? extent[2*ii] : minext);
-    extent[2*ii+1] = (maxext > extent[2*ii+1] ? extent[2*ii+1] : maxext);
-    }
-  this->BrainVolumeReslice->SetInput(imageData);
-  this->BrainVolumeReslice->SetOutputSpacing(spacing);
-  this->BrainVolumeReslice->SetOutputOrigin(origin);
-  this->BrainVolumeReslice->SetOutputExtent(extent);
-  */
-
-  // match the brain volume to the CT volume (temporary?)
-  double range[2];
-  data->GetMRHeadAutoRange(range);
-
-  vtkSmartPointer<vtkTransform> resliceTransform =
-    vtkSmartPointer<vtkTransform>::New();
-  resliceTransform->PostMultiply();
-  resliceTransform->Concatenate(data->GetMRHeadMatrix());
-  resliceTransform->Inverse();
-  resliceTransform->Concatenate(data->GetCTHeadMatrix());
-
-  this->BrainVolumeReslice->SetInput(data->GetMRBrainImage());
-  this->BrainVolumeReslice->SetInformationInput(data->GetCTHeadImage());
-  this->BrainVolumeReslice->SetResliceTransform(resliceTransform);
-  this->BrainVolumeReslice->SetInterpolationModeToCubic();
-  this->BrainVolumeReslice->SetBackgroundLevel(range[0]);
-  this->BrainVolumeReslice->Update();
 
   // the brain volume
   vtkLODProp3D *volume = this->BrainVolume;
-  volume->SetUserMatrix(data->GetCTHeadMatrix());
+  volume->SetUserMatrix(data->GetMRHeadMatrix());
+
+  // use CT to generate clipping planes
+  vtkSmartPointer<vtkPlaneCollection> clippingPlanes =
+    vtkSmartPointer<vtkPlaneCollection>::New();
+  EpilepsyViewerDisplay::GenerateClippingPlanes(
+    clippingPlanes, data->GetCTHeadMatrix(), ctbounds);
+  clippingPlanes->GetItem(5)->SetOrigin(center[0], center[1], center[2] + 30);
+
   size_t m = this->HeadVolumeLODIds.size();
   for (size_t j = 0; j < m; ++j)
     {
@@ -327,6 +357,7 @@ void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
     volume->GetLODMapper(this->BrainVolumeLODIds[j], &vmapper);
     if (vmapper)
       {
+      vmapper->SetClippingPlanes(clippingPlanes);
       vmapper->SetInputConnection(
         this->BrainVolumeReslice->GetOutputPort());
       }
@@ -338,6 +369,7 @@ void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
   vtkSmartPointer<vtkPiecewiseFunction> opacity =
     vtkSmartPointer<vtkPiecewiseFunction>::New();
 
+  data->GetMRHeadAutoRange(range);
 
   static double table[][5] = {
     { 0.00, 0.0, 0.0, 0.0, 0.0 },
@@ -362,13 +394,13 @@ void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
   this->MainRenderer->ResetCamera();
   vtkCamera *camera = this->MainRenderer->GetActiveCamera();
   camera->SetFocalPoint(center);
-  center[0] -= 400.0;
-  center[1] += 100.0;
-  center[2] += 100.0;
+  center[0] -= 600.0;
+  center[1] += 150.0;
+  center[2] += 150.0;
   camera->SetPosition(center);
   camera->SetViewUp(0.0, 0.0, 1.0);
   camera->OrthogonalizeViewUp();
-  camera->SetClippingRange(100, 700);
+  camera->SetClippingRange(200, 1000);
 }
 
 //----------------------------------------------------------------------------
@@ -427,4 +459,101 @@ void EpilepsyViewerDisplay::AddLayer(vtkImageProperty *imageProperty)
     slice->SetProperty(imageProperty);
     this->Slices[i].Stack->AddImage(slice);
     }
+}
+
+//----------------------------------------------------------------------------
+void EpilepsyViewerDisplay::GenerateClippingPlanes(
+  vtkPlaneCollection *planes, vtkMatrix4x4 *matrix, const double bounds[6])
+{
+  double *pointMatrix = *matrix->Element;
+  double normalMatrix[16];
+  vtkMatrix4x4::Invert(pointMatrix, normalMatrix);
+  vtkMatrix4x4::Transpose(normalMatrix, normalMatrix);
+  
+  double center[3];
+  center[0] = 0.5*(bounds[0] + bounds[1]);
+  center[1] = 0.5*(bounds[2] + bounds[3]);
+  center[2] = 0.5*(bounds[4] + bounds[5]);
+
+  planes->RemoveAllItems();
+
+  for (int i = 0; i < 6; ++i)
+    {
+    int j = (i >> 1);
+
+    double origin[4], normal[4];
+    origin[0] = center[0];
+    origin[1] = center[1];
+    origin[2] = center[2];
+    origin[3] = 1.0;
+
+    origin[j] = bounds[i];
+
+    normal[0] = 0.0;
+    normal[1] = 0.0;
+    normal[2] = 0.0;
+    normal[3] = 0.0;
+
+    normal[j] = 1 - ((i & 1) << 1);
+
+    normal[3] = -normal[j]*origin[j];
+
+    vtkMatrix4x4::MultiplyPoint(pointMatrix, origin, origin);
+    origin[0] /= origin[3];
+    origin[1] /= origin[3];
+    origin[2] /= origin[3];
+
+    vtkMatrix4x4::MultiplyPoint(normalMatrix, normal, normal);
+    double norm =
+      sqrt(normal[0]*normal[0] + normal[1]*normal[1] + normal[2]*normal[2]);
+    normal[0] /= norm;
+    normal[1] /= norm;
+    normal[2] /= norm;
+
+    vtkSmartPointer<vtkPlane> plane = vtkSmartPointer<vtkPlane>::New();
+    plane->SetOrigin(origin);
+    plane->SetNormal(normal);
+
+    planes->AddItem(plane);
+    }
+}
+
+//----------------------------------------------------------------------------
+void EpilepsyViewerDisplay::TransformBounds(
+  vtkMatrix4x4 *matrix, const double inbounds[6], double outbounds[6])
+{
+  double xmin = VTK_DOUBLE_MAX;
+  double xmax = VTK_DOUBLE_MIN;
+  double ymin = VTK_DOUBLE_MAX;
+  double ymax = VTK_DOUBLE_MIN;
+  double zmin = VTK_DOUBLE_MAX;
+  double zmax = VTK_DOUBLE_MIN;
+
+  for (int n = 0; n < 8; ++n)
+    {
+    double corner[4];
+    corner[0] = inbounds[(n & 1)];
+    corner[1] = inbounds[2 + ((n & 2) >> 1)];
+    corner[2] = inbounds[4 + ((n & 4) >> 2)];
+    corner[3] = 1.0;
+
+    matrix->MultiplyPoint(corner, corner);
+
+    double x = corner[0] / corner[3];
+    xmin = (x > xmin ? xmin : x);
+    xmax = (x < xmax ? xmax : x);
+    double y = corner[1] / corner[3];
+    ymin = (y > ymin ? ymin : y);
+    ymax = (y < ymax ? ymax : y);
+    double z = corner[2] / corner[3];
+    zmin = (z > zmin ? zmin : z);
+    zmax = (z < zmax ? zmax : z);
+    }
+
+  outbounds[0] = xmin;
+  outbounds[1] = xmax;
+  outbounds[2] = ymin;
+  outbounds[3] = ymax;
+  outbounds[4] = zmin;
+  outbounds[5] = zmax;
 }
