@@ -608,8 +608,10 @@ bool EpilepsyViewerData::ExtractCTElectrodes()
   double skullValue = autoRange[1];
   double maxValue = rangeFinder->GetMaximum();
 
-  // set the isovalue to be higher the skull, lower than electrodes
-  double value = (0.5*skullValue + 0.5*maxValue);
+  // set the isovalue much higher than skull, but lower than electrodes
+  double relativeIntensity = 0.9;
+  double value = (skullValue*(1.0 - relativeIntensity) +
+                  maxValue*relativeIntensity);
 
   // get the image spacing, convert to isotropic
   double spacing[3];

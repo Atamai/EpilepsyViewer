@@ -78,6 +78,7 @@ EpilepsyViewerDisplay::EpilepsyViewerDisplay()
   this->CTImageProperty->SetLayerNumber(CTLayer);
   this->MRVolumeProperty = vtkSmartPointer<vtkVolumeProperty>::New();
   this->ElectrodesProperty = vtkSmartPointer<vtkProperty>::New();
+  this->ElectrodesProperty->SetColor(0.4, 0.7, 1.0);
 
   // electrodes are rendered with a plain old actor
   this->ElectrodesActor = vtkSmartPointer<vtkActor>::New();
