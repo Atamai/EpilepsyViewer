@@ -153,12 +153,9 @@ bool EpilepsyViewerData::LoadFromDataDirectory()
   std::vector<std::string> components;
   vtksys::SystemTools::SplitPath(dirname, components);
 
+  // first look for MINC files
   components.push_back("*CT.mnc");
   std::string mincCT = vtksys::SystemTools::JoinPath(components);
-  components.pop_back();
-
-  components.push_back("*MR.mnc");
-  std::string mincMR = vtksys::SystemTools::JoinPath(components);
   components.pop_back();
 
   vtksys::Glob glob;
@@ -168,15 +165,6 @@ bool EpilepsyViewerData::LoadFromDataDirectory()
     if (files.size() == 1)
       {
       mincCT = files.front();
-      }
-    }
-
-  if (glob.FindFiles(mincMR))
-    {
-    std::vector<std::string> &files = glob.GetFiles();
-    if (files.size() == 1)
-      {
-      mincMR = glob.GetFiles().front();
       }
     }
 
@@ -193,6 +181,57 @@ bool EpilepsyViewerData::LoadFromDataDirectory()
       return false;
       }
     }
+  else
+    {
+    // try DICOM files instead
+    components.push_back("CT_*");
+    components.push_back("*");
+    std::string dicomCT = vtksys::SystemTools::JoinPath(components);
+    components.pop_back();
+    components.pop_back();
+
+    vtksys::Glob glob;
+    if (glob.FindFiles(dicomCT))
+      {
+      std::vector<std::string> &files = glob.GetFiles();
+      if (files.size() == 1)
+        {
+        dicomCT = files.front();
+        }
+      }
+
+    if (!vtksys::SystemTools::FileExists(dicomCT.c_str()) ||
+        !vtksys::SystemTools::FileIsDirectory(dicomCT.c_str()))
+      {
+      this->ReportError("Could not find DICOM directory of MINC file in %s",
+                        dirname);
+      return false;
+      }
+
+    bool success = this->ReadDICOMSeries(
+      this->CTHeadImage, this->CTHeadMatrix,
+      this->CTHeadFullRange, this->CTHeadAutoRange,
+      dicomCT.c_str());
+
+    if (!success)
+      {
+      this->ReportError("Could not read DICOM: %s", dicomCT.c_str());
+      return false;
+      }
+    }
+
+  components.push_back("*MR.mnc");
+  std::string mincMR = vtksys::SystemTools::JoinPath(components);
+  components.pop_back();
+
+  if (glob.FindFiles(mincMR))
+    {
+    std::vector<std::string> &files = glob.GetFiles();
+    if (files.size() == 1)
+      {
+      mincMR = glob.GetFiles().front();
+      }
+    }
 
   if (vtksys::SystemTools::FileExists(mincMR.c_str(), true))
     {
@@ -204,6 +243,43 @@ bool EpilepsyViewerData::LoadFromDataDirectory()
     if (!success)
       {
       this->ReportError("Bad file: %s", mincMR.c_str());
+      return false;
+      }
+    }
+  else
+    {
+    // try DICOM files instead
+    components.push_back("MR_*");
+    components.push_back("*");
+    std::string dicomMR = vtksys::SystemTools::JoinPath(components);
+    components.pop_back();
+    components.pop_back();
+
+    if (glob.FindFiles(dicomMR))
+      {
+      std::vector<std::string> &files = glob.GetFiles();
+      if (files.size() == 1)
+        {
+        dicomMR = glob.GetFiles().front();
+        }
+      }
+
+    if (!vtksys::SystemTools::FileExists(dicomMR.c_str()) ||
+        !vtksys::SystemTools::FileIsDirectory(dicomMR.c_str()))
+      {
+      this->ReportError("Could not find DICOM directory of MINC file in %s",
+                        dirname);
+      return false;
+      }
+
+    bool success = this->ReadDICOMSeries(
+      this->MRHeadImage, this->MRHeadMatrix,
+      this->MRHeadFullRange, this->MRHeadAutoRange,
+      dicomMR.c_str());
+
+    if (!success)
+      {
+      this->ReportError("Could not read DICOM: %s", dicomMR.c_str());
       return false;
       }
     }

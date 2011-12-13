@@ -40,7 +40,13 @@ int main (int argc, char *argv[])
   EpilepsyViewerDisplay *displayManager = &displayManagerObject;
 
   dataManager->SetDataDirectory(argv[1]);
-  dataManager->LoadFromDataDirectory();
+
+  if (!dataManager->LoadFromDataDirectory())
+    {
+    cerr << "Unable to read data, exiting.\n";
+    return EXIT_FAILURE;
+    }
+
   dataManager->RegisterMRHeadToCTHead();
   dataManager->ExtractMRBrain();
   dataManager->ExtractCTElectrodes();
