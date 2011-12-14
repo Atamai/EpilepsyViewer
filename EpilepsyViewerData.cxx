@@ -203,7 +203,7 @@ bool EpilepsyViewerData::LoadFromDataDirectory()
     if (!vtksys::SystemTools::FileExists(dicomCT.c_str()) ||
         !vtksys::SystemTools::FileIsDirectory(dicomCT.c_str()))
       {
-      this->ReportError("Could not find DICOM directory of MINC file in %s",
+      this->ReportError("Could not find DICOM directory or MINC file in %s",
                         dirname);
       return false;
       }
