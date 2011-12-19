@@ -38,6 +38,7 @@ ADD_EXECUTABLE(EpilepsyViewer
   EpilepsyViewer.cxx
   EpilepsyViewerData.cxx
   EpilepsyViewerDisplay.cxx
+  EpilepsyViewerInteraction.cxx
 )
 TARGET_LINK_LIBRARIES(EpilepsyViewer
   vtkToolCursor
