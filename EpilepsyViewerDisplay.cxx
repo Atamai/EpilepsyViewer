@@ -113,6 +113,7 @@ EpilepsyViewerDisplay::EpilepsyViewerDisplay()
   textureMapper = vtkSmartPointer<vtkVolumeTextureMapper3D>::New();
   textureMapper->AddClippingPlane(clippingPlane);
   id = this->BrainVolume->AddLOD(textureMapper, this->MRVolumeProperty, 0.1);
+  //this->BrainVolume->DisableLOD(id);
   this->BrainVolumeLODIds.push_back(id);
 
   this->HeadVolume = vtkSmartPointer<vtkLODProp3D>::New();
@@ -120,11 +121,11 @@ EpilepsyViewerDisplay::EpilepsyViewerDisplay()
   rayCastMapper->AutoAdjustSampleDistancesOff();
   rayCastMapper->LockSampleDistanceToInputSpacingOn();
   id = this->HeadVolume->AddLOD(rayCastMapper, this->MRVolumeProperty, 1.0);
-  this->BrainVolume->DisableLOD(id);
-  this->HeadVolumeLODIds.push_back(id);
   this->HeadVolume->DisableLOD(id);
+  this->HeadVolumeLODIds.push_back(id);
   textureMapper = vtkSmartPointer<vtkVolumeTextureMapper3D>::New();
   id = this->HeadVolume->AddLOD(textureMapper, this->MRVolumeProperty, 0.1);
+  //this->HeadVolume->DisableLOD(id);
   this->HeadVolumeLODIds.push_back(id);
 
   // generate an ortho slice for each orientation
@@ -285,8 +286,6 @@ void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
     extent[2*i + 1] = vtkMath::Ceil((bounds[2*i + 1] - origin[i])/spacing[i]);
     }
 
-  double range[2];
-  data->GetMRHeadAutoRange(range);
 /*
   vtkSmartPointer<vtkImageReslice> padFilter =
     vtkSmartPointer<vtkImageReslice>::New();
@@ -315,6 +314,7 @@ void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
     this->Slices[i].Plane->SetOrigin(center);
 
     // set up the planes for the CT
+    double range[2];
     data->GetCTHeadAutoRange(range);
     image = this->GetImageSlice(CTLayer, i);
     image->GetMapper()->SetInput(data->GetCTHeadImage());
@@ -373,6 +373,7 @@ void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
   vtkSmartPointer<vtkPiecewiseFunction> opacity =
     vtkSmartPointer<vtkPiecewiseFunction>::New();
 
+  double range[2];
   data->GetMRHeadAutoRange(range);
 
   static double table[][5] = {

@@ -556,6 +556,7 @@ bool EpilepsyViewerData::ExtractMRBrain()
   // start the timer
   double startTime = this->Timer->GetUniversalTime();
 
+  // create the extractor
   vtkSmartPointer<vtkImageMRIBrainExtractor> extractor =
     vtkSmartPointer<vtkImageMRIBrainExtractor>::New();
 
