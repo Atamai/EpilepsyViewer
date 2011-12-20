@@ -42,7 +42,7 @@ public:
   enum Orientation { Sagittal, Coronal, Axial, OrientationCount };
 
   //! The layers.
-  enum Layer { CTLayer, MRLayer };
+  enum Layer { MRLayer, CTLayer };
 
   //! Set the render window.  This can only be called once.
   void SetRenderWindow(vtkRenderWindow *renwin);

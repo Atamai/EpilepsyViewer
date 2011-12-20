@@ -34,6 +34,7 @@ Module:    EpilepsyViewerDisplay.cxx
 #include <vtkPiecewiseFunction.h>
 #include <vtkPlaneCollection.h>
 #include <vtkPlane.h>
+#include <vtkLookupTable.h>
 #include <vtkMatrix4x4.h>
 #include <vtkTransform.h>
 #include <vtkMath.h>
@@ -46,6 +47,7 @@ Module:    EpilepsyViewerDisplay.cxx
 EpilepsyViewerDisplay::Slice::Slice(int orientation)
 {
   this->Stack = vtkSmartPointer<vtkImageStack>::New();
+  this->Stack->SetActiveLayer(EpilepsyViewerDisplay::CTLayer);
   this->Plane = vtkSmartPointer<vtkPlane>::New();
   this->Orientation = orientation;
   if (orientation >= 0 && orientation < 2)
@@ -71,11 +73,25 @@ EpilepsyViewerDisplay::EpilepsyViewerDisplay()
   this->MainRenderer = vtkSmartPointer<vtkRenderer>::New();
   this->MainRenderer->SetBackground(0.2, 0.2, 0.2);
 
+  // a special opacity lookup table
+  vtkSmartPointer<vtkLookupTable> table =
+    vtkSmartPointer<vtkLookupTable>::New();
+  table->SetAlphaRange(0.0, 1.0);
+  table->SetValueRange(1.0, 1.0);
+  table->SetSaturationRange(1.0, 1.0);
+  table->SetHueRange(0.0, 0.0);
+  table->SetRampToLinear();
+  table->Build();
+
   // all of the properties that the App has access to
   this->MRImageProperty = vtkSmartPointer<vtkImageProperty>::New();
   this->MRImageProperty->SetLayerNumber(MRLayer);
   this->CTImageProperty = vtkSmartPointer<vtkImageProperty>::New();
   this->CTImageProperty->SetLayerNumber(CTLayer);
+  this->CTImageProperty->SetLookupTable(table);
+  this->CTImageProperty->SetOpacity(0.0);
+  this->CTImageProperty->BackingOn();
+  this->CTImageProperty->SetBackingColor(0.0, 0.0, 0.0);
   this->MRVolumeProperty = vtkSmartPointer<vtkVolumeProperty>::New();
   this->ElectrodesProperty = vtkSmartPointer<vtkProperty>::New();
   this->ElectrodesProperty->SetColor(0.4, 0.7, 1.0);
@@ -135,8 +151,8 @@ EpilepsyViewerDisplay::EpilepsyViewerDisplay()
     }
 
   // create the CT and MR layers
-  this->AddLayer(this->CTImageProperty);
   this->AddLayer(this->MRImageProperty);
+  this->AddLayer(this->CTImageProperty);
 
   // add everthing to the renderer
   this->MainRenderer->AddViewProp(this->BrainVolume);
@@ -316,6 +332,7 @@ void EpilepsyViewerDisplay::SetData(EpilepsyViewerData *data)
     // set up the planes for the CT
     double range[2];
     data->GetCTHeadAutoRange(range);
+    range[0] = 0.5*(range[0] + range[1]);
     image = this->GetImageSlice(CTLayer, i);
     image->GetMapper()->SetInput(data->GetCTHeadImage());
     image->GetMapper()->BorderOn();

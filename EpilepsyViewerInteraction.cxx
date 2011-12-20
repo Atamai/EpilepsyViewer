@@ -13,6 +13,7 @@ Module:    EpilepsyViewerInteraction.cxx
 // from ToolCursor
 #include "vtkToolCursor.h"
 #include "vtkWindowLevelTool.h"
+#include "vtkOpacityTool.h"
 #include "vtkPushPlaneTool.h"
 #include "vtkRotateCameraTool.h"
 #include "vtkPanCameraTool.h"
@@ -75,6 +76,10 @@ void EpilepsyViewerInteraction::BindInteraction(vtkRenderer *renderer)
     vtkSmartPointer<vtkZoomCameraTool>::New();
   int zoomId = cursor->AddAction(zoomTool);
 
+  vtkSmartPointer<vtkOpacityTool> opacityTool =
+    vtkSmartPointer<vtkOpacityTool>::New();
+  int opacityId = cursor->AddAction(opacityTool);
+
   //vtkSmartPointer<vtkWindowLevelTool> winlevTool =
   //  vtkSmartPointer<vtkWindowLevelTool>::New();
   //int winlevId = cursor->AddAction(winlevTool);
@@ -103,13 +108,13 @@ void EpilepsyViewerInteraction::BindInteraction(vtkRenderer *renderer)
   cursor->BindShape(panShape, mode, actorInfo, modifier | VTK_TOOL_B3);
   cursor->BindAction(panId, mode, actorInfo, modifier | VTK_TOOL_B3);
 
-  // Binding for "Zoom" cursor and action
+  // Binding for opacity
   modifier = VTK_TOOL_CONTROL;
-  cursor->BindShape(zoomShape, mode, actorInfo, modifier);
-  cursor->BindShape(zoomShape, mode, actorInfo, modifier | VTK_TOOL_B1);
-  cursor->BindAction(zoomId, mode, actorInfo, modifier | VTK_TOOL_B1);
+  cursor->BindShape(crossShape, mode, actorInfo, modifier);
+  cursor->BindShape(crossShape, mode, actorInfo, modifier | VTK_TOOL_B1);
+  cursor->BindAction(opacityId, mode, actorInfo, modifier | VTK_TOOL_B1);
 
-  // Also bind to right button
+  // Binding for "Zoom" cursor and action
   modifier = 0;
   cursor->BindShape(zoomShape, mode, actorInfo, modifier | VTK_TOOL_B2);
   cursor->BindAction(zoomId, mode, actorInfo, modifier | VTK_TOOL_B2);
