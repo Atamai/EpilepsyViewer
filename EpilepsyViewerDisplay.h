@@ -20,6 +20,7 @@ class vtkVolumeProperty;
 class vtkActor;
 class vtkProperty;
 class vtkPlane;
+class vtkImageData;
 class vtkImageStack;
 class vtkImageSlice;
 class vtkImageProperty;
@@ -87,9 +88,22 @@ private:
   static void GenerateClippingPlanes(vtkPlaneCollection *planes,
     vtkMatrix4x4 *matrix, const double bounds[6]);
 
-  //! Get a transformed set of bounds that encloses the origin bounds.
+  //! Tighten the clipping planes around a volume so that they touch on
+  //! each side.
+  static void TightenClippingPlanes(
+    vtkPlaneCollection *planes, vtkMatrix4x4 *matrix, vtkImageData *data);
+
+  //! Get a transformed set of bounds that encloses the original bounds.
   static void TransformBounds(vtkMatrix4x4 *matrix,
     const double inbounds[6], double outbounds[6]);
+
+  //! Set up vtkImageReslice so that it extracts the specified plane.
+  static void SetReslicePlane(
+    vtkImageReslice *reslice, const double plane[4]);
+
+  //! Convert a plane to a reslice matrix.
+  static void ConvertPlaneToResliceAxes(
+    const double plane[4], double matrix[16]);
 
   vtkSmartPointer<vtkRenderWindow> RenderWindow;
   vtkSmartPointer<vtkRenderer> MainRenderer;
