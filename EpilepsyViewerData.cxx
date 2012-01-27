@@ -641,7 +641,7 @@ bool EpilepsyViewerData::ExtractCTElectrodes()
     vtkSmartPointer<vtkMatrix4x4>::New();
 
   vtkMatrix4x4::Invert(this->CTHeadMatrix, matrix);
-  matrix->Multiply4x4(this->MRHeadMatrix, matrix, matrix);
+  vtkMatrix4x4::Multiply4x4(matrix, this->MRHeadMatrix, matrix);
   transform->Concatenate(matrix);
 
   // expand by a 5% tolerance to get all electrodes
