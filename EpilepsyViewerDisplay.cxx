@@ -456,7 +456,7 @@ void EpilepsyViewerDisplay::SetSliceOrientation(int i, vtkMatrix4x4 *matrix)
   double normal[4] = { 0.0, 0.0, 0.0, 0.0 };
   double origin[3];
   plane->GetOrigin(origin);
-  normal[i] = 1.0;
+  normal[o] = 1.0;
   normal[3] = -vtkMath::Dot(normal, origin);
   matrix->MultiplyPoint(normal, normal);
   plane->SetNormal(normal);
