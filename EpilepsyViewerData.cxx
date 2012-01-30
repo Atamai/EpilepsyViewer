@@ -190,7 +190,6 @@ bool EpilepsyViewerData::LoadFromDataDirectory()
     components.pop_back();
     components.pop_back();
 
-    vtksys::Glob glob;
     if (glob.FindFiles(dicomCT))
       {
       std::vector<std::string> &files = glob.GetFiles();
