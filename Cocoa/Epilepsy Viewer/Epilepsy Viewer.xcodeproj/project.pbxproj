@@ -1,0 +1,722 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8C2FE49614CDF7C30081107F /* EpilepsyViewerData.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 8C2FE49014CDF7C30081107F /* EpilepsyViewerData.cxx */; };
+		8C2FE49714CDF7C30081107F /* EpilepsyViewerDisplay.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 8C2FE49214CDF7C30081107F /* EpilepsyViewerDisplay.cxx */; };
+		8C2FE49814CDF7C30081107F /* EpilepsyViewerInteraction.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 8C2FE49414CDF7C30081107F /* EpilepsyViewerInteraction.cxx */; };
+		8C2FE49D14CDF95D0081107F /* libvtkImageAnalysis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C2FE49A14CDF95D0081107F /* libvtkImageAnalysis.a */; };
+		8C2FE49E14CDF95D0081107F /* libvtkImageRegistration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C2FE49B14CDF95D0081107F /* libvtkImageRegistration.a */; };
+		8C2FE49F14CDF95D0081107F /* libvtkImageSegmentation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C2FE49C14CDF95D0081107F /* libvtkImageSegmentation.a */; };
+		8C2FE4A114CDFA470081107F /* libvtkToolCursor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C2FE4A014CDFA470081107F /* libvtkToolCursor.a */; };
+		8CCB7FF814CDD4980026CB10 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB7FF714CDD4980026CB10 /* Cocoa.framework */; };
+		8CCB800214CDD4980026CB10 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8CCB800014CDD4980026CB10 /* InfoPlist.strings */; };
+		8CCB800414CDD4980026CB10 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CCB800314CDD4980026CB10 /* main.m */; };
+		8CCB800814CDD4980026CB10 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8CCB800614CDD4980026CB10 /* Credits.rtf */; };
+		8CCB800B14CDD4980026CB10 /* Document.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8CCB800A14CDD4980026CB10 /* Document.mm */; };
+		8CCB800E14CDD4980026CB10 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CCB800C14CDD4980026CB10 /* Document.xib */; };
+		8CCB801114CDD4980026CB10 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CCB800F14CDD4980026CB10 /* MainMenu.xib */; };
+		8CCB801914CDD4990026CB10 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB801814CDD4990026CB10 /* SenTestingKit.framework */; };
+		8CCB801A14CDD4990026CB10 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB7FF714CDD4980026CB10 /* Cocoa.framework */; };
+		8CCB802214CDD4990026CB10 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8CCB802014CDD4990026CB10 /* InfoPlist.strings */; };
+		8CCB802514CDD4990026CB10 /* Epilepsy_ViewerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CCB802414CDD4990026CB10 /* Epilepsy_ViewerTests.m */; };
+		8CCB803014CDD8EB0026CB10 /* BasicVTKView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8CCB802F14CDD8EB0026CB10 /* BasicVTKView.mm */; };
+		8CCB805A14CDDF7B0026CB10 /* libCosmo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB803214CDDF7B0026CB10 /* libCosmo.a */; };
+		8CCB805B14CDDF7B0026CB10 /* libLSDyna.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB803314CDDF7B0026CB10 /* libLSDyna.a */; };
+		8CCB805C14CDDF7B0026CB10 /* libMapReduceMPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB803414CDDF7B0026CB10 /* libMapReduceMPI.a */; };
+		8CCB805D14CDDF7B0026CB10 /* libmpistubs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB803514CDDF7B0026CB10 /* libmpistubs.a */; };
+		8CCB805E14CDDF7B0026CB10 /* libVPIC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB803614CDDF7B0026CB10 /* libVPIC.a */; };
+		8CCB805F14CDDF7B0026CB10 /* libvtkalglib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB803714CDDF7B0026CB10 /* libvtkalglib.a */; };
+		8CCB806014CDDF7B0026CB10 /* libvtkCharts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB803814CDDF7B0026CB10 /* libvtkCharts.a */; };
+		8CCB806114CDDF7B0026CB10 /* libvtkCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB803914CDDF7B0026CB10 /* libvtkCommon.a */; };
+		8CCB806214CDDF7B0026CB10 /* libvtkDICOMParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB803A14CDDF7B0026CB10 /* libvtkDICOMParser.a */; };
+		8CCB806314CDDF7B0026CB10 /* libvtkexoIIc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB803B14CDDF7B0026CB10 /* libvtkexoIIc.a */; };
+		8CCB806414CDDF7B0026CB10 /* libvtkexpat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB803C14CDDF7B0026CB10 /* libvtkexpat.a */; };
+		8CCB806514CDDF7B0026CB10 /* libvtkFiltering.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB803D14CDDF7B0026CB10 /* libvtkFiltering.a */; };
+		8CCB806614CDDF7B0026CB10 /* libvtkfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB803E14CDDF7B0026CB10 /* libvtkfreetype.a */; };
+		8CCB806714CDDF7B0026CB10 /* libvtkftgl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB803F14CDDF7B0026CB10 /* libvtkftgl.a */; };
+		8CCB806814CDDF7B0026CB10 /* libvtkGenericFiltering.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB804014CDDF7B0026CB10 /* libvtkGenericFiltering.a */; };
+		8CCB806914CDDF7B0026CB10 /* libvtkGeovis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB804114CDDF7B0026CB10 /* libvtkGeovis.a */; };
+		8CCB806A14CDDF7B0026CB10 /* libvtkGraphics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB804214CDDF7B0026CB10 /* libvtkGraphics.a */; };
+		8CCB806B14CDDF7B0026CB10 /* libvtkhdf5_hl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB804314CDDF7B0026CB10 /* libvtkhdf5_hl.a */; };
+		8CCB806C14CDDF7B0026CB10 /* libvtkhdf5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB804414CDDF7B0026CB10 /* libvtkhdf5.a */; };
+		8CCB806D14CDDF7B0026CB10 /* libvtkHybrid.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB804514CDDF7B0026CB10 /* libvtkHybrid.a */; };
+		8CCB806E14CDDF7B0026CB10 /* libvtkImaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB804614CDDF7B0026CB10 /* libvtkImaging.a */; };
+		8CCB806F14CDDF7B0026CB10 /* libvtkInfovis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB804714CDDF7B0026CB10 /* libvtkInfovis.a */; };
+		8CCB807014CDDF7B0026CB10 /* libvtkIO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB804814CDDF7B0026CB10 /* libvtkIO.a */; };
+		8CCB807114CDDF7B0026CB10 /* libvtkjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB804914CDDF7B0026CB10 /* libvtkjpeg.a */; };
+		8CCB807214CDDF7B0026CB10 /* libvtklibxml2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB804A14CDDF7B0026CB10 /* libvtklibxml2.a */; };
+		8CCB807314CDDF7B0026CB10 /* libvtkmetaio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB804B14CDDF7B0026CB10 /* libvtkmetaio.a */; };
+		8CCB807414CDDF7B0026CB10 /* libvtkNetCDF_cxx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB804C14CDDF7B0026CB10 /* libvtkNetCDF_cxx.a */; };
+		8CCB807514CDDF7B0026CB10 /* libvtkNetCDF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB804D14CDDF7B0026CB10 /* libvtkNetCDF.a */; };
+		8CCB807614CDDF7B0026CB10 /* libvtkParallel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB804E14CDDF7B0026CB10 /* libvtkParallel.a */; };
+		8CCB807714CDDF7B0026CB10 /* libvtkpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB804F14CDDF7B0026CB10 /* libvtkpng.a */; };
+		8CCB807814CDDF7B0026CB10 /* libvtkproj4.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB805014CDDF7B0026CB10 /* libvtkproj4.a */; };
+		8CCB807914CDDF7B0026CB10 /* libvtkRendering.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB805114CDDF7B0026CB10 /* libvtkRendering.a */; };
+		8CCB807A14CDDF7B0026CB10 /* libvtksqlite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB805214CDDF7B0026CB10 /* libvtksqlite.a */; };
+		8CCB807B14CDDF7B0026CB10 /* libvtksys.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB805314CDDF7B0026CB10 /* libvtksys.a */; };
+		8CCB807C14CDDF7B0026CB10 /* libvtktiff.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB805414CDDF7B0026CB10 /* libvtktiff.a */; };
+		8CCB807D14CDDF7B0026CB10 /* libvtkverdict.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB805514CDDF7B0026CB10 /* libvtkverdict.a */; };
+		8CCB807E14CDDF7B0026CB10 /* libvtkViews.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB805614CDDF7B0026CB10 /* libvtkViews.a */; };
+		8CCB807F14CDDF7B0026CB10 /* libvtkVolumeRendering.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB805714CDDF7B0026CB10 /* libvtkVolumeRendering.a */; };
+		8CCB808014CDDF7B0026CB10 /* libvtkWidgets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB805814CDDF7B0026CB10 /* libvtkWidgets.a */; };
+		8CCB808114CDDF7B0026CB10 /* libvtkzlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB805914CDDF7B0026CB10 /* libvtkzlib.a */; };
+		8CCB808314CDE0510026CB10 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB808214CDE0510026CB10 /* OpenGL.framework */; };
+		8CCB808514CDE06F0026CB10 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CCB808414CDE06F0026CB10 /* IOKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8CCB801B14CDD4990026CB10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8CCB7FEA14CDD4980026CB10 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8CCB7FF214CDD4980026CB10;
+			remoteInfo = "Epilepsy Viewer";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8C2FE49014CDF7C30081107F /* EpilepsyViewerData.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EpilepsyViewerData.cxx; path = ../../../EpilepsyViewerData.cxx; sourceTree = "<group>"; };
+		8C2FE49114CDF7C30081107F /* EpilepsyViewerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EpilepsyViewerData.h; path = ../../../EpilepsyViewerData.h; sourceTree = "<group>"; };
+		8C2FE49214CDF7C30081107F /* EpilepsyViewerDisplay.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EpilepsyViewerDisplay.cxx; path = ../../../EpilepsyViewerDisplay.cxx; sourceTree = "<group>"; };
+		8C2FE49314CDF7C30081107F /* EpilepsyViewerDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EpilepsyViewerDisplay.h; path = ../../../EpilepsyViewerDisplay.h; sourceTree = "<group>"; };
+		8C2FE49414CDF7C30081107F /* EpilepsyViewerInteraction.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EpilepsyViewerInteraction.cxx; path = ../../../EpilepsyViewerInteraction.cxx; sourceTree = "<group>"; };
+		8C2FE49514CDF7C30081107F /* EpilepsyViewerInteraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EpilepsyViewerInteraction.h; path = ../../../EpilepsyViewerInteraction.h; sourceTree = "<group>"; };
+		8C2FE49A14CDF95D0081107F /* libvtkImageAnalysis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkImageAnalysis.a; path = ../../../AIRSCocoaBin/bin/libvtkImageAnalysis.a; sourceTree = "<group>"; };
+		8C2FE49B14CDF95D0081107F /* libvtkImageRegistration.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkImageRegistration.a; path = ../../../AIRSCocoaBin/bin/libvtkImageRegistration.a; sourceTree = "<group>"; };
+		8C2FE49C14CDF95D0081107F /* libvtkImageSegmentation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkImageSegmentation.a; path = ../../../AIRSCocoaBin/bin/libvtkImageSegmentation.a; sourceTree = "<group>"; };
+		8C2FE4A014CDFA470081107F /* libvtkToolCursor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkToolCursor.a; path = ../../../ToolCursorCocoaBin/libvtkToolCursor.a; sourceTree = "<group>"; };
+		8CCB7FF314CDD4980026CB10 /* Epilepsy Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Epilepsy Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8CCB7FF714CDD4980026CB10 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		8CCB7FFA14CDD4980026CB10 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		8CCB7FFB14CDD4980026CB10 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		8CCB7FFC14CDD4980026CB10 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		8CCB7FFF14CDD4980026CB10 /* Epilepsy Viewer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Epilepsy Viewer-Info.plist"; sourceTree = "<group>"; };
+		8CCB800114CDD4980026CB10 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8CCB800314CDD4980026CB10 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8CCB800514CDD4980026CB10 /* Epilepsy Viewer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Epilepsy Viewer-Prefix.pch"; sourceTree = "<group>"; };
+		8CCB800714CDD4980026CB10 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		8CCB800914CDD4980026CB10 /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
+		8CCB800A14CDD4980026CB10 /* Document.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Document.mm; sourceTree = "<group>"; };
+		8CCB800D14CDD4980026CB10 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Document.xib; sourceTree = "<group>"; };
+		8CCB801014CDD4980026CB10 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		8CCB801714CDD4990026CB10 /* Epilepsy ViewerTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Epilepsy ViewerTests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8CCB801814CDD4990026CB10 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		8CCB801F14CDD4990026CB10 /* Epilepsy ViewerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Epilepsy ViewerTests-Info.plist"; sourceTree = "<group>"; };
+		8CCB802114CDD4990026CB10 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8CCB802314CDD4990026CB10 /* Epilepsy_ViewerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Epilepsy_ViewerTests.h; sourceTree = "<group>"; };
+		8CCB802414CDD4990026CB10 /* Epilepsy_ViewerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Epilepsy_ViewerTests.m; sourceTree = "<group>"; };
+		8CCB802E14CDD8EB0026CB10 /* BasicVTKView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicVTKView.h; sourceTree = "<group>"; };
+		8CCB802F14CDD8EB0026CB10 /* BasicVTKView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BasicVTKView.mm; sourceTree = "<group>"; };
+		8CCB803214CDDF7B0026CB10 /* libCosmo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCosmo.a; path = ../../../VTKCocoaBin/bin/libCosmo.a; sourceTree = "<group>"; };
+		8CCB803314CDDF7B0026CB10 /* libLSDyna.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLSDyna.a; path = ../../../VTKCocoaBin/bin/libLSDyna.a; sourceTree = "<group>"; };
+		8CCB803414CDDF7B0026CB10 /* libMapReduceMPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMapReduceMPI.a; path = ../../../VTKCocoaBin/bin/libMapReduceMPI.a; sourceTree = "<group>"; };
+		8CCB803514CDDF7B0026CB10 /* libmpistubs.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmpistubs.a; path = ../../../VTKCocoaBin/bin/libmpistubs.a; sourceTree = "<group>"; };
+		8CCB803614CDDF7B0026CB10 /* libVPIC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libVPIC.a; path = ../../../VTKCocoaBin/bin/libVPIC.a; sourceTree = "<group>"; };
+		8CCB803714CDDF7B0026CB10 /* libvtkalglib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkalglib.a; path = ../../../VTKCocoaBin/bin/libvtkalglib.a; sourceTree = "<group>"; };
+		8CCB803814CDDF7B0026CB10 /* libvtkCharts.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkCharts.a; path = ../../../VTKCocoaBin/bin/libvtkCharts.a; sourceTree = "<group>"; };
+		8CCB803914CDDF7B0026CB10 /* libvtkCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkCommon.a; path = ../../../VTKCocoaBin/bin/libvtkCommon.a; sourceTree = "<group>"; };
+		8CCB803A14CDDF7B0026CB10 /* libvtkDICOMParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkDICOMParser.a; path = ../../../VTKCocoaBin/bin/libvtkDICOMParser.a; sourceTree = "<group>"; };
+		8CCB803B14CDDF7B0026CB10 /* libvtkexoIIc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkexoIIc.a; path = ../../../VTKCocoaBin/bin/libvtkexoIIc.a; sourceTree = "<group>"; };
+		8CCB803C14CDDF7B0026CB10 /* libvtkexpat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkexpat.a; path = ../../../VTKCocoaBin/bin/libvtkexpat.a; sourceTree = "<group>"; };
+		8CCB803D14CDDF7B0026CB10 /* libvtkFiltering.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkFiltering.a; path = ../../../VTKCocoaBin/bin/libvtkFiltering.a; sourceTree = "<group>"; };
+		8CCB803E14CDDF7B0026CB10 /* libvtkfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkfreetype.a; path = ../../../VTKCocoaBin/bin/libvtkfreetype.a; sourceTree = "<group>"; };
+		8CCB803F14CDDF7B0026CB10 /* libvtkftgl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkftgl.a; path = ../../../VTKCocoaBin/bin/libvtkftgl.a; sourceTree = "<group>"; };
+		8CCB804014CDDF7B0026CB10 /* libvtkGenericFiltering.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkGenericFiltering.a; path = ../../../VTKCocoaBin/bin/libvtkGenericFiltering.a; sourceTree = "<group>"; };
+		8CCB804114CDDF7B0026CB10 /* libvtkGeovis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkGeovis.a; path = ../../../VTKCocoaBin/bin/libvtkGeovis.a; sourceTree = "<group>"; };
+		8CCB804214CDDF7B0026CB10 /* libvtkGraphics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkGraphics.a; path = ../../../VTKCocoaBin/bin/libvtkGraphics.a; sourceTree = "<group>"; };
+		8CCB804314CDDF7B0026CB10 /* libvtkhdf5_hl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkhdf5_hl.a; path = ../../../VTKCocoaBin/bin/libvtkhdf5_hl.a; sourceTree = "<group>"; };
+		8CCB804414CDDF7B0026CB10 /* libvtkhdf5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkhdf5.a; path = ../../../VTKCocoaBin/bin/libvtkhdf5.a; sourceTree = "<group>"; };
+		8CCB804514CDDF7B0026CB10 /* libvtkHybrid.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkHybrid.a; path = ../../../VTKCocoaBin/bin/libvtkHybrid.a; sourceTree = "<group>"; };
+		8CCB804614CDDF7B0026CB10 /* libvtkImaging.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkImaging.a; path = ../../../VTKCocoaBin/bin/libvtkImaging.a; sourceTree = "<group>"; };
+		8CCB804714CDDF7B0026CB10 /* libvtkInfovis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkInfovis.a; path = ../../../VTKCocoaBin/bin/libvtkInfovis.a; sourceTree = "<group>"; };
+		8CCB804814CDDF7B0026CB10 /* libvtkIO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkIO.a; path = ../../../VTKCocoaBin/bin/libvtkIO.a; sourceTree = "<group>"; };
+		8CCB804914CDDF7B0026CB10 /* libvtkjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkjpeg.a; path = ../../../VTKCocoaBin/bin/libvtkjpeg.a; sourceTree = "<group>"; };
+		8CCB804A14CDDF7B0026CB10 /* libvtklibxml2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtklibxml2.a; path = ../../../VTKCocoaBin/bin/libvtklibxml2.a; sourceTree = "<group>"; };
+		8CCB804B14CDDF7B0026CB10 /* libvtkmetaio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkmetaio.a; path = ../../../VTKCocoaBin/bin/libvtkmetaio.a; sourceTree = "<group>"; };
+		8CCB804C14CDDF7B0026CB10 /* libvtkNetCDF_cxx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkNetCDF_cxx.a; path = ../../../VTKCocoaBin/bin/libvtkNetCDF_cxx.a; sourceTree = "<group>"; };
+		8CCB804D14CDDF7B0026CB10 /* libvtkNetCDF.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkNetCDF.a; path = ../../../VTKCocoaBin/bin/libvtkNetCDF.a; sourceTree = "<group>"; };
+		8CCB804E14CDDF7B0026CB10 /* libvtkParallel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkParallel.a; path = ../../../VTKCocoaBin/bin/libvtkParallel.a; sourceTree = "<group>"; };
+		8CCB804F14CDDF7B0026CB10 /* libvtkpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkpng.a; path = ../../../VTKCocoaBin/bin/libvtkpng.a; sourceTree = "<group>"; };
+		8CCB805014CDDF7B0026CB10 /* libvtkproj4.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkproj4.a; path = ../../../VTKCocoaBin/bin/libvtkproj4.a; sourceTree = "<group>"; };
+		8CCB805114CDDF7B0026CB10 /* libvtkRendering.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkRendering.a; path = ../../../VTKCocoaBin/bin/libvtkRendering.a; sourceTree = "<group>"; };
+		8CCB805214CDDF7B0026CB10 /* libvtksqlite.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtksqlite.a; path = ../../../VTKCocoaBin/bin/libvtksqlite.a; sourceTree = "<group>"; };
+		8CCB805314CDDF7B0026CB10 /* libvtksys.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtksys.a; path = ../../../VTKCocoaBin/bin/libvtksys.a; sourceTree = "<group>"; };
+		8CCB805414CDDF7B0026CB10 /* libvtktiff.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtktiff.a; path = ../../../VTKCocoaBin/bin/libvtktiff.a; sourceTree = "<group>"; };
+		8CCB805514CDDF7B0026CB10 /* libvtkverdict.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkverdict.a; path = ../../../VTKCocoaBin/bin/libvtkverdict.a; sourceTree = "<group>"; };
+		8CCB805614CDDF7B0026CB10 /* libvtkViews.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkViews.a; path = ../../../VTKCocoaBin/bin/libvtkViews.a; sourceTree = "<group>"; };
+		8CCB805714CDDF7B0026CB10 /* libvtkVolumeRendering.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkVolumeRendering.a; path = ../../../VTKCocoaBin/bin/libvtkVolumeRendering.a; sourceTree = "<group>"; };
+		8CCB805814CDDF7B0026CB10 /* libvtkWidgets.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkWidgets.a; path = ../../../VTKCocoaBin/bin/libvtkWidgets.a; sourceTree = "<group>"; };
+		8CCB805914CDDF7B0026CB10 /* libvtkzlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvtkzlib.a; path = ../../../VTKCocoaBin/bin/libvtkzlib.a; sourceTree = "<group>"; };
+		8CCB808214CDE0510026CB10 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = ../../../../../../System/Library/Frameworks/OpenGL.framework; sourceTree = "<group>"; };
+		8CCB808414CDE06F0026CB10 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8CCB7FF014CDD4980026CB10 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8CCB7FF814CDD4980026CB10 /* Cocoa.framework in Frameworks */,
+				8CCB805A14CDDF7B0026CB10 /* libCosmo.a in Frameworks */,
+				8CCB805B14CDDF7B0026CB10 /* libLSDyna.a in Frameworks */,
+				8CCB805C14CDDF7B0026CB10 /* libMapReduceMPI.a in Frameworks */,
+				8CCB805D14CDDF7B0026CB10 /* libmpistubs.a in Frameworks */,
+				8CCB805E14CDDF7B0026CB10 /* libVPIC.a in Frameworks */,
+				8CCB805F14CDDF7B0026CB10 /* libvtkalglib.a in Frameworks */,
+				8CCB806014CDDF7B0026CB10 /* libvtkCharts.a in Frameworks */,
+				8CCB806114CDDF7B0026CB10 /* libvtkCommon.a in Frameworks */,
+				8CCB806214CDDF7B0026CB10 /* libvtkDICOMParser.a in Frameworks */,
+				8CCB806314CDDF7B0026CB10 /* libvtkexoIIc.a in Frameworks */,
+				8CCB806414CDDF7B0026CB10 /* libvtkexpat.a in Frameworks */,
+				8CCB806514CDDF7B0026CB10 /* libvtkFiltering.a in Frameworks */,
+				8CCB806614CDDF7B0026CB10 /* libvtkfreetype.a in Frameworks */,
+				8CCB806714CDDF7B0026CB10 /* libvtkftgl.a in Frameworks */,
+				8CCB806814CDDF7B0026CB10 /* libvtkGenericFiltering.a in Frameworks */,
+				8CCB806914CDDF7B0026CB10 /* libvtkGeovis.a in Frameworks */,
+				8CCB806A14CDDF7B0026CB10 /* libvtkGraphics.a in Frameworks */,
+				8CCB806B14CDDF7B0026CB10 /* libvtkhdf5_hl.a in Frameworks */,
+				8CCB806C14CDDF7B0026CB10 /* libvtkhdf5.a in Frameworks */,
+				8CCB806D14CDDF7B0026CB10 /* libvtkHybrid.a in Frameworks */,
+				8CCB806E14CDDF7B0026CB10 /* libvtkImaging.a in Frameworks */,
+				8CCB806F14CDDF7B0026CB10 /* libvtkInfovis.a in Frameworks */,
+				8CCB807014CDDF7B0026CB10 /* libvtkIO.a in Frameworks */,
+				8CCB807114CDDF7B0026CB10 /* libvtkjpeg.a in Frameworks */,
+				8CCB807214CDDF7B0026CB10 /* libvtklibxml2.a in Frameworks */,
+				8CCB807314CDDF7B0026CB10 /* libvtkmetaio.a in Frameworks */,
+				8CCB807414CDDF7B0026CB10 /* libvtkNetCDF_cxx.a in Frameworks */,
+				8CCB807514CDDF7B0026CB10 /* libvtkNetCDF.a in Frameworks */,
+				8CCB807614CDDF7B0026CB10 /* libvtkParallel.a in Frameworks */,
+				8CCB807714CDDF7B0026CB10 /* libvtkpng.a in Frameworks */,
+				8CCB807814CDDF7B0026CB10 /* libvtkproj4.a in Frameworks */,
+				8CCB807914CDDF7B0026CB10 /* libvtkRendering.a in Frameworks */,
+				8CCB807A14CDDF7B0026CB10 /* libvtksqlite.a in Frameworks */,
+				8CCB807B14CDDF7B0026CB10 /* libvtksys.a in Frameworks */,
+				8CCB807C14CDDF7B0026CB10 /* libvtktiff.a in Frameworks */,
+				8CCB807D14CDDF7B0026CB10 /* libvtkverdict.a in Frameworks */,
+				8CCB807E14CDDF7B0026CB10 /* libvtkViews.a in Frameworks */,
+				8CCB807F14CDDF7B0026CB10 /* libvtkVolumeRendering.a in Frameworks */,
+				8CCB808014CDDF7B0026CB10 /* libvtkWidgets.a in Frameworks */,
+				8CCB808114CDDF7B0026CB10 /* libvtkzlib.a in Frameworks */,
+				8CCB808314CDE0510026CB10 /* OpenGL.framework in Frameworks */,
+				8CCB808514CDE06F0026CB10 /* IOKit.framework in Frameworks */,
+				8C2FE49D14CDF95D0081107F /* libvtkImageAnalysis.a in Frameworks */,
+				8C2FE49E14CDF95D0081107F /* libvtkImageRegistration.a in Frameworks */,
+				8C2FE49F14CDF95D0081107F /* libvtkImageSegmentation.a in Frameworks */,
+				8C2FE4A114CDFA470081107F /* libvtkToolCursor.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8CCB801314CDD4990026CB10 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8CCB801914CDD4990026CB10 /* SenTestingKit.framework in Frameworks */,
+				8CCB801A14CDD4990026CB10 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8C2FE49914CDF8DE0081107F /* Atamai Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				8C2FE49A14CDF95D0081107F /* libvtkImageAnalysis.a */,
+				8C2FE49B14CDF95D0081107F /* libvtkImageRegistration.a */,
+				8C2FE49C14CDF95D0081107F /* libvtkImageSegmentation.a */,
+				8C2FE4A014CDFA470081107F /* libvtkToolCursor.a */,
+			);
+			name = "Atamai Libraries";
+			sourceTree = "<group>";
+		};
+		8CCB7FE814CDD4980026CB10 = {
+			isa = PBXGroup;
+			children = (
+				8C2FE49914CDF8DE0081107F /* Atamai Libraries */,
+				8CCB803114CDDF440026CB10 /* VTK Libraries */,
+				8CCB7FFD14CDD4980026CB10 /* Epilepsy Viewer */,
+				8CCB801D14CDD4990026CB10 /* Epilepsy ViewerTests */,
+				8CCB7FF614CDD4980026CB10 /* Frameworks */,
+				8CCB7FF414CDD4980026CB10 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8CCB7FF414CDD4980026CB10 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8CCB7FF314CDD4980026CB10 /* Epilepsy Viewer.app */,
+				8CCB801714CDD4990026CB10 /* Epilepsy ViewerTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8CCB7FF614CDD4980026CB10 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8CCB808414CDE06F0026CB10 /* IOKit.framework */,
+				8CCB808214CDE0510026CB10 /* OpenGL.framework */,
+				8CCB7FF714CDD4980026CB10 /* Cocoa.framework */,
+				8CCB801814CDD4990026CB10 /* SenTestingKit.framework */,
+				8CCB7FF914CDD4980026CB10 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8CCB7FF914CDD4980026CB10 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8CCB7FFA14CDD4980026CB10 /* AppKit.framework */,
+				8CCB7FFB14CDD4980026CB10 /* CoreData.framework */,
+				8CCB7FFC14CDD4980026CB10 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		8CCB7FFD14CDD4980026CB10 /* Epilepsy Viewer */ = {
+			isa = PBXGroup;
+			children = (
+				8CCB802E14CDD8EB0026CB10 /* BasicVTKView.h */,
+				8CCB802F14CDD8EB0026CB10 /* BasicVTKView.mm */,
+				8CCB800914CDD4980026CB10 /* Document.h */,
+				8CCB800A14CDD4980026CB10 /* Document.mm */,
+				8C2FE49114CDF7C30081107F /* EpilepsyViewerData.h */,
+				8C2FE49014CDF7C30081107F /* EpilepsyViewerData.cxx */,
+				8C2FE49314CDF7C30081107F /* EpilepsyViewerDisplay.h */,
+				8C2FE49214CDF7C30081107F /* EpilepsyViewerDisplay.cxx */,
+				8C2FE49514CDF7C30081107F /* EpilepsyViewerInteraction.h */,
+				8C2FE49414CDF7C30081107F /* EpilepsyViewerInteraction.cxx */,
+				8CCB800C14CDD4980026CB10 /* Document.xib */,
+				8CCB800F14CDD4980026CB10 /* MainMenu.xib */,
+				8CCB7FFE14CDD4980026CB10 /* Supporting Files */,
+			);
+			path = "Epilepsy Viewer";
+			sourceTree = "<group>";
+		};
+		8CCB7FFE14CDD4980026CB10 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8CCB7FFF14CDD4980026CB10 /* Epilepsy Viewer-Info.plist */,
+				8CCB800014CDD4980026CB10 /* InfoPlist.strings */,
+				8CCB800314CDD4980026CB10 /* main.m */,
+				8CCB800514CDD4980026CB10 /* Epilepsy Viewer-Prefix.pch */,
+				8CCB800614CDD4980026CB10 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8CCB801D14CDD4990026CB10 /* Epilepsy ViewerTests */ = {
+			isa = PBXGroup;
+			children = (
+				8CCB802314CDD4990026CB10 /* Epilepsy_ViewerTests.h */,
+				8CCB802414CDD4990026CB10 /* Epilepsy_ViewerTests.m */,
+				8CCB801E14CDD4990026CB10 /* Supporting Files */,
+			);
+			path = "Epilepsy ViewerTests";
+			sourceTree = "<group>";
+		};
+		8CCB801E14CDD4990026CB10 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8CCB801F14CDD4990026CB10 /* Epilepsy ViewerTests-Info.plist */,
+				8CCB802014CDD4990026CB10 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8CCB803114CDDF440026CB10 /* VTK Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				8CCB803214CDDF7B0026CB10 /* libCosmo.a */,
+				8CCB803314CDDF7B0026CB10 /* libLSDyna.a */,
+				8CCB803414CDDF7B0026CB10 /* libMapReduceMPI.a */,
+				8CCB803514CDDF7B0026CB10 /* libmpistubs.a */,
+				8CCB803614CDDF7B0026CB10 /* libVPIC.a */,
+				8CCB803714CDDF7B0026CB10 /* libvtkalglib.a */,
+				8CCB803814CDDF7B0026CB10 /* libvtkCharts.a */,
+				8CCB803914CDDF7B0026CB10 /* libvtkCommon.a */,
+				8CCB803A14CDDF7B0026CB10 /* libvtkDICOMParser.a */,
+				8CCB803B14CDDF7B0026CB10 /* libvtkexoIIc.a */,
+				8CCB803C14CDDF7B0026CB10 /* libvtkexpat.a */,
+				8CCB803D14CDDF7B0026CB10 /* libvtkFiltering.a */,
+				8CCB803E14CDDF7B0026CB10 /* libvtkfreetype.a */,
+				8CCB803F14CDDF7B0026CB10 /* libvtkftgl.a */,
+				8CCB804014CDDF7B0026CB10 /* libvtkGenericFiltering.a */,
+				8CCB804114CDDF7B0026CB10 /* libvtkGeovis.a */,
+				8CCB804214CDDF7B0026CB10 /* libvtkGraphics.a */,
+				8CCB804314CDDF7B0026CB10 /* libvtkhdf5_hl.a */,
+				8CCB804414CDDF7B0026CB10 /* libvtkhdf5.a */,
+				8CCB804514CDDF7B0026CB10 /* libvtkHybrid.a */,
+				8CCB804614CDDF7B0026CB10 /* libvtkImaging.a */,
+				8CCB804714CDDF7B0026CB10 /* libvtkInfovis.a */,
+				8CCB804814CDDF7B0026CB10 /* libvtkIO.a */,
+				8CCB804914CDDF7B0026CB10 /* libvtkjpeg.a */,
+				8CCB804A14CDDF7B0026CB10 /* libvtklibxml2.a */,
+				8CCB804B14CDDF7B0026CB10 /* libvtkmetaio.a */,
+				8CCB804C14CDDF7B0026CB10 /* libvtkNetCDF_cxx.a */,
+				8CCB804D14CDDF7B0026CB10 /* libvtkNetCDF.a */,
+				8CCB804E14CDDF7B0026CB10 /* libvtkParallel.a */,
+				8CCB804F14CDDF7B0026CB10 /* libvtkpng.a */,
+				8CCB805014CDDF7B0026CB10 /* libvtkproj4.a */,
+				8CCB805114CDDF7B0026CB10 /* libvtkRendering.a */,
+				8CCB805214CDDF7B0026CB10 /* libvtksqlite.a */,
+				8CCB805314CDDF7B0026CB10 /* libvtksys.a */,
+				8CCB805414CDDF7B0026CB10 /* libvtktiff.a */,
+				8CCB805514CDDF7B0026CB10 /* libvtkverdict.a */,
+				8CCB805614CDDF7B0026CB10 /* libvtkViews.a */,
+				8CCB805714CDDF7B0026CB10 /* libvtkVolumeRendering.a */,
+				8CCB805814CDDF7B0026CB10 /* libvtkWidgets.a */,
+				8CCB805914CDDF7B0026CB10 /* libvtkzlib.a */,
+			);
+			name = "VTK Libraries";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8CCB7FF214CDD4980026CB10 /* Epilepsy Viewer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8CCB802814CDD4990026CB10 /* Build configuration list for PBXNativeTarget "Epilepsy Viewer" */;
+			buildPhases = (
+				8CCB7FEF14CDD4980026CB10 /* Sources */,
+				8CCB7FF014CDD4980026CB10 /* Frameworks */,
+				8CCB7FF114CDD4980026CB10 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Epilepsy Viewer";
+			productName = "Epilepsy Viewer";
+			productReference = 8CCB7FF314CDD4980026CB10 /* Epilepsy Viewer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8CCB801614CDD4990026CB10 /* Epilepsy ViewerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8CCB802B14CDD4990026CB10 /* Build configuration list for PBXNativeTarget "Epilepsy ViewerTests" */;
+			buildPhases = (
+				8CCB801214CDD4990026CB10 /* Sources */,
+				8CCB801314CDD4990026CB10 /* Frameworks */,
+				8CCB801414CDD4990026CB10 /* Resources */,
+				8CCB801514CDD4990026CB10 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8CCB801C14CDD4990026CB10 /* PBXTargetDependency */,
+			);
+			name = "Epilepsy ViewerTests";
+			productName = "Epilepsy ViewerTests";
+			productReference = 8CCB801714CDD4990026CB10 /* Epilepsy ViewerTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8CCB7FEA14CDD4980026CB10 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 8CCB7FED14CDD4980026CB10 /* Build configuration list for PBXProject "Epilepsy Viewer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 8CCB7FE814CDD4980026CB10;
+			productRefGroup = 8CCB7FF414CDD4980026CB10 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8CCB7FF214CDD4980026CB10 /* Epilepsy Viewer */,
+				8CCB801614CDD4990026CB10 /* Epilepsy ViewerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8CCB7FF114CDD4980026CB10 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8CCB800214CDD4980026CB10 /* InfoPlist.strings in Resources */,
+				8CCB800814CDD4980026CB10 /* Credits.rtf in Resources */,
+				8CCB800E14CDD4980026CB10 /* Document.xib in Resources */,
+				8CCB801114CDD4980026CB10 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8CCB801414CDD4990026CB10 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8CCB802214CDD4990026CB10 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8CCB801514CDD4990026CB10 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8CCB7FEF14CDD4980026CB10 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8CCB800414CDD4980026CB10 /* main.m in Sources */,
+				8CCB800B14CDD4980026CB10 /* Document.mm in Sources */,
+				8CCB803014CDD8EB0026CB10 /* BasicVTKView.mm in Sources */,
+				8C2FE49614CDF7C30081107F /* EpilepsyViewerData.cxx in Sources */,
+				8C2FE49714CDF7C30081107F /* EpilepsyViewerDisplay.cxx in Sources */,
+				8C2FE49814CDF7C30081107F /* EpilepsyViewerInteraction.cxx in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8CCB801214CDD4990026CB10 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8CCB802514CDD4990026CB10 /* Epilepsy_ViewerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8CCB801C14CDD4990026CB10 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8CCB7FF214CDD4980026CB10 /* Epilepsy Viewer */;
+			targetProxy = 8CCB801B14CDD4990026CB10 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8CCB800014CDD4980026CB10 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8CCB800114CDD4980026CB10 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		8CCB800614CDD4980026CB10 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8CCB800714CDD4980026CB10 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		8CCB800C14CDD4980026CB10 /* Document.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8CCB800D14CDD4980026CB10 /* en */,
+			);
+			name = Document.xib;
+			sourceTree = "<group>";
+		};
+		8CCB800F14CDD4980026CB10 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8CCB801014CDD4980026CB10 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		8CCB802014CDD4990026CB10 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8CCB802114CDD4990026CB10 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8CCB802614CDD4990026CB10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(ToolCursor_INCLUDE)",
+					"$(VTK_INCLUDE)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
+			};
+			name = Debug;
+		};
+		8CCB802714CDD4990026CB10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(ToolCursor_INCLUDE)",
+					"$(VTK_INCLUDE)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
+			};
+			name = Release;
+		};
+		8CCB802914CDD4990026CB10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Epilepsy Viewer/Epilepsy Viewer-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(ToolCursor_INCLUDE)",
+					"$(AIRS_INCLUDE)",
+					"$(VTK_INCLUDE)",
+				);
+				INFOPLIST_FILE = "Epilepsy Viewer/Epilepsy Viewer-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../VTKCocoaBin/bin\"",
+					"\"$(SRCROOT)/../../../AIRSCocoaBin/bin\"",
+					"\"$(SRCROOT)/../../../ToolCursorCocoaBin\"",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		8CCB802A14CDD4990026CB10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Epilepsy Viewer/Epilepsy Viewer-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(ToolCursor_INCLUDE)",
+					"$(AIRS_INCLUDE)",
+					"$(VTK_INCLUDE)",
+				);
+				INFOPLIST_FILE = "Epilepsy Viewer/Epilepsy Viewer-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../VTKCocoaBin/bin\"",
+					"\"$(SRCROOT)/../../../AIRSCocoaBin/bin\"",
+					"\"$(SRCROOT)/../../../ToolCursorCocoaBin\"",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		8CCB802C14CDD4990026CB10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Epilepsy Viewer.app/Contents/MacOS/Epilepsy Viewer";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Epilepsy Viewer/Epilepsy Viewer-Prefix.pch";
+				INFOPLIST_FILE = "Epilepsy ViewerTests/Epilepsy ViewerTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		8CCB802D14CDD4990026CB10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Epilepsy Viewer.app/Contents/MacOS/Epilepsy Viewer";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Epilepsy Viewer/Epilepsy Viewer-Prefix.pch";
+				INFOPLIST_FILE = "Epilepsy ViewerTests/Epilepsy ViewerTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8CCB7FED14CDD4980026CB10 /* Build configuration list for PBXProject "Epilepsy Viewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8CCB802614CDD4990026CB10 /* Debug */,
+				8CCB802714CDD4990026CB10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8CCB802814CDD4990026CB10 /* Build configuration list for PBXNativeTarget "Epilepsy Viewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8CCB802914CDD4990026CB10 /* Debug */,
+				8CCB802A14CDD4990026CB10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8CCB802B14CDD4990026CB10 /* Build configuration list for PBXNativeTarget "Epilepsy ViewerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8CCB802C14CDD4990026CB10 /* Debug */,
+				8CCB802D14CDD4990026CB10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8CCB7FEA14CDD4980026CB10 /* Project object */;
+}
