@@ -115,10 +115,10 @@ private:
 
   vtkSmartPointer<vtkImageReslice> BrainVolumeReslice;
   vtkSmartPointer<vtkLODProp3D> BrainVolume;
-  vtkstd::vector<int> BrainVolumeLODIds;
+  std::vector<int> BrainVolumeLODIds;
   vtkSmartPointer<vtkImageReslice> HeadVolumeReslice;
   vtkSmartPointer<vtkLODProp3D> HeadVolume;
-  vtkstd::vector<int> HeadVolumeLODIds;
+  std::vector<int> HeadVolumeLODIds;
 
   vtkSmartPointer<vtkActor> ElectrodesActor;
 
